@@ -11,11 +11,36 @@ public class BiTree<K extends Comparable<K>> {
 
         var node = root;
         while(node != null) {
-            node = addOrStepDown(node, key);
+            node = addChildOrStepDown(node, key);
         }
     }
 
-    private Node<K> addOrStepDown(Node<K> parent, K childKey) {
+    public boolean isContain(K key) {
+        var node = root;
+        while(node != null) {
+            if (node.key == key) {
+                return true;
+            } else {
+                node = stepDown(node, key);
+            }
+        }
+
+        return false;
+    }
+
+    private Node<K> stepDown(Node<K> node, K key) {
+        int compareResult = key.compareTo(node.key);
+        if(compareResult > 0) {
+            return node.right();
+        }
+        if(compareResult < 0) {
+            return node.left();
+        }
+
+        return null;
+    }
+
+    private Node<K> addChildOrStepDown(Node<K> parent, K childKey) {
         Node<K> stepDownNode = null;
         int compareResult = childKey.compareTo(parent.key);
         if(compareResult > 0) {
